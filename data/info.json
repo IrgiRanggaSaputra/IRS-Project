@@ -1,0 +1,94 @@
+[
+  {
+    "id": 1,
+    "title": "Layanan Konsultasi IT",
+    "summary": "Konsultasi pengembangan sistem informasi dan infrastruktur IT.",
+    "tagline": "Solusi profesional untuk pengembangan sistem informasi modern.",
+    "image": "consulting.jpg",
+    "description": "IRS Project menyediakan konsultasi IT mulai dari analisis kebutuhan, perancangan arsitektur, pemilihan teknologi, dan pendampingan implementasi.",
+    "scope": [
+      "Analisis kebutuhan sistem",
+      "Desain arsitektur IT",
+      "Audit keamanan",
+      "Integrasi dan pengembangan sistem",
+      "Rekomendasi hardware/software"
+    ],
+    "benefits": [
+      "Efisiensi biaya dan waktu",
+      "Sistem lebih aman",
+      "Solusi sesuai kebutuhan",
+      "Pendampingan profesional"
+    ],
+    "process": [
+      "Konsultasi awal",
+      "Analisis kebutuhan",
+      "Perancangan solusi",
+      "Implementasi",
+      "Evaluasi & support"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Manajemen Proyek",
+    "summary": "Pendampingan manajemen proyek teknologi informasi.",
+    "tagline": "Mengelola proyek teknologi secara efektif dan tepat waktu.",
+    "image": "manajement.jpg",
+    "description": "IRS Project menyediakan layanan manajemen proyek untuk memastikan setiap proyek teknologi informasi berjalan sesuai rencana, anggaran, dan standar kualitas. Kami mendampingi mulai dari perencanaan, eksekusi, pengawasan, hingga evaluasi akhir agar hasil yang dicapai optimal dan berkelanjutan.",
+    "scope": [
+      "Penyusunan rencana proyek",
+      "Penyusunan timeline & milestone",
+      "Budgeting dan pengelolaan anggaran",
+      "Monitoring & controlling proyek",
+      "Manajemen risiko",
+      "Koordinasi tim dan pihak terkait",
+      "Pengelolaan dokumentasi",
+      "Evaluasi dan laporan akhir"
+    ],
+    "benefits": [
+      "Proyek selesai tepat waktu",
+      "Efisiensi biaya dan proses",
+      "Mengurangi risiko keterlambatan",
+      "Koordinasi tim lebih efektif",
+      "Hasil lebih terukur dan berkualitas"
+    ],
+    "process": [
+      "Kick-off Meeting",
+      "Analisis kebutuhan proyek",
+      "Penyusunan rencana proyek",
+      "Implementasi & pengawasan",
+      "Evaluasi berkala",
+      "Penyelesaian proyek"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Pelatihan dan Workshop",
+    "summary": "Pelatihan untuk pengembangan SDM dan adopsi teknologi.",
+    "tagline": "Meningkatkan kompetensi SDM untuk menghadapi era digital.",
+    "image": "pelatihan.png",
+    "description": "IRS Project menyediakan layanan pelatihan dan workshop untuk mendukung peningkatan kompetensi SDM dalam penggunaan teknologi dan sistem informasi. Program pelatihan dirancang interaktif, mulai dari tingkat dasar hingga lanjutan, disesuaikan dengan kebutuhan instansi maupun perusahaan.",
+    "scope": [
+      "Pelatihan penggunaan aplikasi perkantoran",
+      "Pelatihan sistem informasi",
+      "Dasar jaringan & keamanan informasi",
+      "Workshop transformasi digital",
+      "Pelatihan software khusus instansi",
+      "Pelatihan tools produktivitas"
+    ],
+    "benefits": [
+      "SDM lebih kompeten",
+      "Produktivitas meningkat",
+      "Meminimalisir kesalahan kerja",
+      "Mendukung digitalisasi organisasi",
+      "Pengalaman praktik langsung"
+    ],
+    "process": [
+      "Analisis kebutuhan",
+      "Penyusunan materi",
+      "Pelaksanaan pelatihan",
+      "Praktik & simulasi",
+      "Evaluasi hasil",
+      "Sertifikasi (opsional)"
+    ]
+  }
+]
