@@ -144,8 +144,23 @@ Register
 
 ![Halaman Utama](assets/screenshot/register.png)
 
+## API
 
----
+Create
+
+![Halaman Utama](assets/API/create.png)
+
+Update
+
+![Halaman Utama](assets/API/update.png)
+
+Read
+
+![Halaman Utama](assets/API/get.png)
+
+Delete
+
+![Halaman Utama](assets/API/delete.png)
 
 ## 👨‍💻 Developer
 
