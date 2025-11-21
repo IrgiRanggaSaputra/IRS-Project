@@ -1,80 +1,75 @@
 <?php
 session_start();
-
-// Load users JSON
-$file = "data/users.json";
-$users = json_decode(file_get_contents($file), true);
+require "config.php";
 
 $error = "";
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $nama = trim($_POST["nama"]);
-    $password = trim($_POST["password"]);
+if (isset($_POST["login"])) {
+    $nama = trim($_POST["nama"] ?? "");
+    $password = $_POST["password"] ?? "";
 
-    foreach ($users as $u) {
-        if ($u["nama"] === $nama && $u["password"] === $password) {
-            
-            // Simpan session
-            $_SESSION["user"] = [
-                "nama" => $u["nama"],
-                "email" => $u["email"]
-            ];
+    // Use prepared statements to avoid SQL injection
+    $stmt = $conn->prepare("SELECT * FROM users WHERE nama = ? LIMIT 1");
+    if ($stmt) {
+        $stmt->bind_param("s", $nama);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-            // Pindah ke menu utama
-            header("Location: menu.php");
-            exit;
+        if ($result && $result->num_rows > 0) {
+            $data = $result->fetch_assoc();
+
+            if (password_verify($password, $data["password"])) {
+                // Prevent session fixation
+                session_regenerate_id(true);
+                $_SESSION["user"] = $data;
+                header("Location: menu.php");
+                exit;
+            } else {
+                $error = "Password salah!";
+            }
+        } else {
+            $error = "Nama pengguna tidak ditemukan!";
         }
-    }
 
-    $error = "Nama atau Password salah!";
+        $stmt->close();
+    } else {
+        $error = "Terjadi
+         kesalahan (gagal menyiapkan query).";
+    }
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
-
+    <title>Login IRS Project</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        body { background: #eef2f7; }
-        .login-box {
-            max-width: 420px;
-            margin: 80px auto;
-            padding: 30px;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-    </style>
 </head>
-<body>
+<body class="bg-light">
 
-<h2 class="text-center fw-bold my-4">Login</h2>
+<div class="container mt-5">
+    <div class="col-md-4 mx-auto">
+        <div class="card p-4 shadow">
+            <h3 class="text-center mb-3">Login</h3>
 
-<div class="login-box">
+            <?php if ($error): ?>
+                <div class="alert alert-danger"><?=$error;?></div>
+            <?php endif; ?>
 
-    <?php if ($error): ?>
-        <div class="alert alert-danger"><?= $error ?></div>
-    <?php endif; ?>
+            <form method="POST">
+                <label>Nama</label>
+                <input type="text" name="nama" class="form-control mb-3" required>
 
-    <form method="post">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control mb-3" required>
 
-        <div class="mb-3">
-            <label class="form-label">Nama</label>
-            <input type="text" name="nama" class="form-control" required>
+                <button class="btn btn-primary w-100" name="login">Login</button>
+            </form>
+
+            <p class="text-center mt-3">
+                Belum punya akun? <a href="register.php">Register</a>
+            </p>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" required>
-        </div>
-
-        <button class="btn btn-primary w-100 mt-2">Login</button>
-
-        <a href="register.php" class="btn btn-link w-100 mt-2">Belum punya akun? Register</a>
-    </form>
-
+    </div>
 </div>
 
 </body>

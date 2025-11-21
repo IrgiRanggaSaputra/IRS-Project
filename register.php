@@ -1,106 +1,57 @@
 <?php
-// Mulai session
-session_start();
+require "config.php";
 
-$file = "data/users.json";
+$msg = "";
 
-// Jika file belum ada, buat file JSON kosong
-if (!file_exists($file)) {
-    file_put_contents($file, "[]");
-}
+if (isset($_POST["register"])) {
+    $nama = $_POST["nama"];
+    $email = $_POST["email"];
+    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
-$users = json_decode(file_get_contents($file), true);
-$error = "";
-$success = "";
+    $query = "INSERT INTO users (nama, email, password) VALUES ('$nama', '$email', '$password')";
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
-    $nama = trim($_POST["nama"]);
-    $email = trim($_POST["email"]);
-    $password = trim($_POST["password"]);
-
-    // Cek apakah user sudah ada
-    foreach ($users as $u) {
-        if ($u["nama"] === $nama) {
-            $error = "Nama sudah digunakan!";
-            break;
-        }
-        if ($u["email"] === $email) {
-            $error = "Email sudah terdaftar!";
-            break;
-        }
-    }
-
-    // Jika tidak ada error → simpan user baru
-    if (!$error) {
-        $users[] = [
-            "nama" => $nama,
-            "email" => $email,
-            "password" => $password // (bisa di-hash nanti)
-        ];
-
-        file_put_contents($file, json_encode($users, JSON_PRETTY_PRINT));
-
-        $success = "Registrasi berhasil! Silakan login.";
+    if ($conn->query($query)) {
+        $msg = "Registrasi berhasil! Silakan login.";
+    } else {
+        $msg = "Terjadi kesalahan.";
     }
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Registrasi</title>
-
+    <title>Register IRS Project</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        body { background: #eef2f7; }
-        .register-box {
-            max-width: 450px;
-            margin: 70px auto;
-            padding: 30px;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-    </style>
 </head>
-<body>
+<body class="bg-light">
 
-<h2 class="text-center fw-bold my-4">Registrasi Akun</h2>
+<div class="container mt-5">
+    <div class="col-md-4 mx-auto">
+        <div class="card p-4 shadow">
+            <h3 class="text-center mb-3">Register</h3>
 
-<div class="register-box">
+            <?php if ($msg): ?>
+                <div class="alert alert-info"><?=$msg;?></div>
+            <?php endif; ?>
 
-    <?php if ($error): ?>
-        <div class="alert alert-danger"><?= $error ?></div>
-    <?php endif; ?>
+            <form method="POST">
+                <label>Nama</label>
+                <input type="text" name="nama" class="form-control mb-3" required>
 
-    <?php if ($success): ?>
-        <div class="alert alert-success"><?= $success ?></div>
-    <?php endif; ?>
+                <label>Email</label>
+                <input type="email" name="email" class="form-control mb-3" required>
 
-    <form method="post">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control mb-3" required>
 
-        <div class="mb-3">
-            <label class="form-label">Nama</label>
-            <input type="text" name="nama" class="form-control" required>
+                <button class="btn btn-success w-100" name="register">Register</button>
+            </form>
+
+            <p class="text-center mt-3">
+                Sudah punya akun? <a href="login.php">Login</a>
+            </p>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" required>
-        </div>
-
-        <button class="btn btn-success w-100 mt-2">Daftar</button>
-
-        <a href="login.php" class="btn btn-link w-100 mt-2">Sudah punya akun? Login</a>
-
-    </form>
-
+    </div>
 </div>
 
 </body>
