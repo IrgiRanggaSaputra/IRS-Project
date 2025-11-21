@@ -58,7 +58,8 @@ IRS-Project/
 │   │   ├── consulting.jpg
 │   │   ├── manajement.jpg
 │   │   ├── pelatihan.png
-│   │   └── lainnya...
+│   │
+|   
 │
 ├── data/
 │   └── info.json
@@ -113,14 +114,36 @@ Contoh struktur JSON:
 ```
 
 
-## 📸 Screenshot (Opsional)
+## 📸 Screenshot 
 
-Tambahkan screenshot halaman:
+screenshot halaman utama:
 
-```
-![Homepage](assets/image/screenshot_home.png)
-![Detail Layanan](assets/image/screenshot_detail.png)
-```
+![Halaman Utama](assets/screenshot/halaman-utama.png)
+
+Layanan IT
+
+![Halaman Utama](assets/screenshot/layanan-IT.png)
+
+Layanan Proyek
+
+![Halaman Utama](assets/screenshot/layanan-proyek.png)
+
+Layanan
+
+![Halaman Utama](assets/screenshot/layanan.png)
+
+Login
+
+![Halaman Utama](assets/screenshot/login.png)
+
+Menu Utama
+
+![Halaman Utama](assets/screenshot/menu-utama.png)
+
+Register
+
+![Halaman Utama](assets/screenshot/register.png)
+
 
 ---
 
