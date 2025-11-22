@@ -1,0 +1,138 @@
+# 📌 CRUD API Documentation --- Postman Collection
+
+Dokumentasi ini berisi panduan penggunaan API CRUD yang telah dibuat
+serta cara melakukan pengujian menggunakan **Postman**. Setiap endpoint
+dijelaskan dengan metode, URL, contoh request, dan contoh response.
+
+## 🚀 Base URL
+
+    http://localhost/IRS-PROJECT/api/
+
+# 📗 API Endpoints
+
+## 1. 📥 Create Data
+
+**Endpoint:** `/create.php`\
+**Method:** `POST`\
+**Deskripsi:** Menambahkan data baru ke dalam database.
+
+### 🔧 Request Body (JSON)
+
+``` json
+{
+  "nama": "Audit IT",
+  "deskripsi": "Pemeriksaan komprehensif sistem IT perusahaan",
+  "harga": 3000000
+}
+```
+
+### ✅ Response
+
+``` json
+{
+  "status": "success",
+  "message": "Data berhasil ditambahkan"
+}
+```
+
+## 2. 📤 Read Data
+
+**Endpoint:** `/read.php`\
+**Method:** `GET`\
+**Deskripsi:** Mengambil seluruh data dari database.
+
+### ✅ Response
+
+``` json
+{
+  "status": "success",
+  "data": [
+    {
+      "id": 1,
+      "nama": "Audit IT",
+      "deskripsi": "Pemeriksaan komprehensif sistem IT perusahaan",
+      "harga": 3000000
+    }
+  ]
+}
+```
+
+## 3. ✏️ Update Data
+
+**Endpoint:** `/update.php`\
+**Method:** `PUT`\
+**Deskripsi:** Memperbarui data berdasarkan `id`.
+
+### 🔧 Request Body (JSON)
+
+``` json
+{
+  "id": 1,
+  "nama": "Audit IT - Revised",
+  "deskripsi": "Pemeriksaan sistem TI perusahaan (update)",
+  "harga": 3500000
+}
+```
+
+### ✅ Response
+
+``` json
+{
+  "status": "success",
+  "message": "Data berhasil diperbarui"
+}
+```
+
+## 4. 🗑️ Delete Data
+
+**Endpoint:** `/delete.php`\
+**Method:** `DELETE`\
+**Deskripsi:** Menghapus data berdasarkan `id`.
+
+### 🔧 Request Body (JSON)
+
+``` json
+{
+  "id": 1
+}
+```
+
+### ✅ Response
+
+``` json
+{
+  "status": "success",
+  "message": "Data berhasil dihapus"
+}
+```
+
+# 🧪 Pengujian Menggunakan Postman
+
+1.  Buka **Postman**
+2.  Buat **Collection baru** → beri nama misalnya: `IRS-Project`
+3.  Tambahkan empat request:
+    -   **GET** → `API-Get` → `read.php`
+    -   **POST** → `API-Create` → `create.php`
+    -   **PUT** → `API-Update` → `update.php`
+    -   **DELETE** → `API-Delete` → `delete.php`
+4.  Masuk ke tab **Body** → pilih `raw` → `JSON`
+5.  Masukkan payload JSON sesuai endpoint
+6.  Klik **Send**
+7.  Response akan muncul di bagian bawah (status, message, dan data)
+
+# 📦 Tools yang Digunakan
+
+-   **PHP Native**
+-   **MySQL Database**
+-   **Postman**
+
+# 📝 Catatan
+
+-   Pastikan server lokal (XAMPP/Laragon/WAMP) sudah berjalan.
+-   Pastikan koneksi database pada file konfigurasi sudah benar.
+-   Gunakan header berikut pada semua request:
+
+```{=html}
+<!-- -->
+```
+    Content-Type: application/json
