@@ -10,15 +10,11 @@ footer {
     font-size: 13px;
 }
 
-/* Safety fixes: ensure navbar and buttons stay clickable if an accidental
-   overlay or backdrop remains on the page. These rules raise z-index and
-   restore pointer events for interactive elements without changing layout. */
+
 .navbar { position: relative; z-index: 1200; }
 .hero, .card, .container { position: relative; z-index: 1; }
 a.btn, .nav-link { position: relative; z-index: 1300; pointer-events: auto; }
 
-/* Hide or lower typical bootstrap backdrops if they accidentally remain visible
-   This forces them to not block clicks while keeping actual modals usable. */
 .modal-backdrop, .offcanvas-backdrop, .modal-backdrop.show {
     pointer-events: none !important;
     opacity: 0 !important;

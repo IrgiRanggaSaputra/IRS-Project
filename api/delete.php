@@ -1,13 +1,22 @@
 <?php
 include 'koneksi.php';
 
-$id = $_GET["id"];
+header("Content-Type: application/json");
 
-$query = "DELETE FROM layanan WHERE id = $id";
+// Ambil ID dari URL
+$id = $_GET["id"] ?? null;
+
+if (!$id) {
+    echo json_encode(["status" => "error", "message" => "ID tidak ditemukan"]);
+    exit;
+}
+
+// Query DELETE ke SQL users
+$query = "DELETE FROM users WHERE id = $id";
 
 if (mysqli_query($koneksi, $query)) {
-    echo json_encode(["status" => "success", "message" => "Data berhasil dihapus"]);
+    echo json_encode(["status" => "success", "message" => "User berhasil dihapus"]);
 } else {
-    echo json_encode(["status" => "error", "message" => "Gagal menghapus data"]);
+    echo json_encode(["status" => "error", "message" => "Gagal menghapus user"]);
 }
 ?>

@@ -1,15 +1,30 @@
 <?php
 require_once "includes/header.php";
 
-$infos = json_decode(file_get_contents("data/info.json"), true);
-$id = isset($_GET['id']) ? $_GET['id'] : null;
-$detail = null;
+// Load layanan from database instead of JSON
+require_once __DIR__ . '/config.php';
 
-foreach($infos as $info) {
-    if($info["id"] == $id) {
-        $detail = $info;
-        break;
+$infos = [];
+$sql = "SELECT id, nama, image, deskripsi FROM layanan ORDER BY id ASC";
+$res = $conn->query($sql);
+if ($res && $res->num_rows > 0) {
+  while ($row = $res->fetch_assoc()) {
+    $summary = '';
+    // If deskripsi contains JSON, try to extract description or create a short summary
+    $maybe = json_decode($row['deskripsi'] ?? '', true);
+    if (is_array($maybe) && !empty($maybe['description'])) {
+      $summary = mb_substr(strip_tags($maybe['description']), 0, 160);
+    } else {
+      $summary = mb_substr(strip_tags($row['deskripsi'] ?? ''), 0, 160);
     }
+
+    $infos[] = [
+      'id' => $row['id'],
+      'title' => $row['nama'],
+      'summary' => $summary,
+      'image' => $row['image']
+    ];
+  }
 }
 ?>
 

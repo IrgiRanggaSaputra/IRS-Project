@@ -1,22 +1,44 @@
 <?php
 include 'koneksi.php';
 
-$input = json_decode(file_get_contents("php://input"), true);
+header("Content-Type: application/json");
 
-if (!$input) {
-    echo json_encode(["status" => "error", "message" => "Invalid JSON"]);
+// Pastikan request POST
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    echo json_encode(["status" => "error", "message" => "Method harus POST"]);
     exit;
 }
 
-$nama = $input["nama"];
-$deskripsi = $input["deskripsi"];
-$harga = $input["harga"];
+// Ambil data dari POST (bukan JSON)
+$nama     = $_POST['nama'] ?? null;
+$email    = $_POST['email'] ?? null;
+$password = $_POST['password'] ?? null;
 
-$query = "INSERT INTO layanan (nama, deskripsi, harga) VALUES ('$nama', '$deskripsi', '$harga')";
+// Validasi sederhana
+if (!$nama || !$email || !$password) {
+    echo json_encode(["status" => "error", "message" => "Semua field harus diisi"]);
+    exit;
+}
+
+// Enkripsi password
+$hashPass = password_hash($password, PASSWORD_BCRYPT);
+
+// Query insert
+$query = "INSERT INTO users (nama, email, password) VALUES ('$nama', '$email', '$hashPass')";
 
 if (mysqli_query($koneksi, $query)) {
-    echo json_encode(["status" => "success", "message" => "Data berhasil ditambahkan"]);
+    echo json_encode([
+        "status" => "success",
+        "message" => "User berhasil ditambahkan",
+        "data" => [
+            "nama" => $nama,
+            "email" => $email
+        ]
+    ]);
 } else {
-    echo json_encode(["status" => "error", "message" => "Gagal menambah data"]);
+    echo json_encode([
+        "status" => "error",
+        "message" => "Gagal menambah user: " . mysqli_error($koneksi)
+    ]);
 }
 ?>

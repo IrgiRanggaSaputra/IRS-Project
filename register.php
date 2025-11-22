@@ -4,16 +4,25 @@ require "config.php";
 $msg = "";
 
 if (isset($_POST["register"])) {
-    $nama = $_POST["nama"];
-    $email = $_POST["email"];
-    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+    $nama = trim($_POST["nama"]);
+    $email = trim($_POST["email"]);
+    $passwordRaw = $_POST["password"];
+    $password = password_hash($passwordRaw, PASSWORD_DEFAULT);
 
-    $query = "INSERT INTO users (nama, email, password) VALUES ('$nama', '$email', '$password')";
+    // Gunakan prepared statement agar aman
+    $stmt = $conn->prepare("INSERT INTO users (nama, email, password) VALUES (?, ?, ?)");
+    if ($stmt) {
+        $stmt->bind_param("sss", $nama, $email, $password);
 
-    if ($conn->query($query)) {
-        $msg = "Registrasi berhasil! Silakan login.";
+        if ($stmt->execute()) {
+            $msg = "Registrasi berhasil! Silakan login.";
+        } else {
+            $msg = "Terjadi kesalahan saat registrasi!";
+        }
+
+        $stmt->close();
     } else {
-        $msg = "Terjadi kesalahan.";
+        $msg = "Gagal memproses data!";
     }
 }
 ?>
@@ -34,15 +43,17 @@ if (isset($_POST["register"])) {
                 <div class="alert alert-info"><?=$msg;?></div>
             <?php endif; ?>
 
-            <form method="POST">
+            <!-- Tambahkan validasi JavaScript -->
+            <form method="POST" onsubmit="return validateRegister()">
+
                 <label>Nama</label>
-                <input type="text" name="nama" class="form-control mb-3" required>
+                <input type="text" id="nama" name="nama" class="form-control mb-3" required>
 
                 <label>Email</label>
-                <input type="email" name="email" class="form-control mb-3" required>
+                <input type="email" id="email" name="email" class="form-control mb-3" required>
 
                 <label>Password</label>
-                <input type="password" name="password" class="form-control mb-3" required>
+                <input type="password" id="password" name="password" class="form-control mb-3" required>
 
                 <button class="btn btn-success w-100" name="register">Register</button>
             </form>
@@ -53,6 +64,49 @@ if (isset($_POST["register"])) {
         </div>
     </div>
 </div>
+
+<!-- =============================== -->
+<!--  JavaScript Validasi Register IF -->
+<!-- =============================== -->
+<script>
+function validateRegister() {
+    let nama = document.getElementById("nama").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value.trim();
+
+    // Validasi nama
+    if (nama === "") {
+        alert("Nama tidak boleh kosong!");
+        return false;
+    }
+    if (nama.length < 3) {
+        alert("Nama harus minimal 3 karakter!");
+        return false;
+    }
+
+    // Validasi email format sederhana
+    if (email === "") {
+        alert("Email tidak boleh kosong!");
+        return false;
+    }
+    if (!email.includes("@") || !email.includes(".")) {
+        alert("Format email tidak valid!");
+        return false;
+    }
+
+    // Validasi password
+    if (password === "") {
+        alert("Password tidak boleh kosong!");
+        return false;
+    }
+    if (password.length < 6) {
+        alert("Password minimal 6 karakter!");
+        return false;
+    }
+
+    return true; // form valid → kirim ke PHP
+}
+</script>
 
 </body>
 </html>
